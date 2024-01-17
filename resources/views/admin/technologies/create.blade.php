@@ -1,13 +1,12 @@
 @extends('layouts.app')
 @section('content')
-    <section class="container py-2 text-white">
-        <h1>EDIT {{ $category->name }}</h1>
-        <form action="{{ route('admin.categories.update', $category->id) }}" method="POST">
+    <section class="container text-white py-3">
+        <h1>Create new technology</h1>
+        <form action="{{ route('admin.technologies.store') }}" method="POST">
             @csrf
-            @method('PUT')
             <div class="mb-3">
                 <label for="name" class="fs-2">Name</label>
-                <input type="text" value="{{ old('name', $category->name) }}" class="form-control @error('name') is-invalid @enderror" name='name' id='name' required maxlength="200" minlength="3">
+                <input type="text" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" name='name' id='name' required maxlength="200" minlength="3">
                 @error('name')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror

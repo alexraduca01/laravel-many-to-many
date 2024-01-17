@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use App\Models\Category;
+use App\Models\Technology;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use Illuminate\Support\Str;
@@ -26,8 +27,9 @@ class ProjectController extends Controller
      */
     public function create()
     {
+        $technologies = Technology::all();
         $categories = Category::all();
-        return view('admin.projects.create', compact('categories'));
+        return view('admin.projects.create', compact('categories', 'technologies'));
     }
 
     /**
@@ -54,6 +56,9 @@ class ProjectController extends Controller
             $formData['image'] = $path;
         }
         $newProject = Project::create($formData);
+        if($request->has('technologies')) {
+            $newProject->technologies()->attach($request->technologies);
+        }
 
         return redirect()->route('admin.projects.show', $newProject->slug);
     }
@@ -71,8 +76,9 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
+        $technologies = Technology::all();
         $categories = Category::all();
-        return view('admin.projects.edit', compact('project', 'categories'));
+        return view('admin.projects.edit', compact('project', 'categories', 'technologies'));
     }
 
     /**
@@ -101,8 +107,12 @@ class ProjectController extends Controller
             $path = Storage::put('images', $request->image);
             $formData['image'] = $path;
         }
-
         $project->update($formData);
+        if($request->has('technologies')) {
+            $project->technologies()->sync($request->technologies);
+        } else {
+            $project->technologies()->detach();
+        }
 
         return redirect()->route('admin.projects.show', $project->slug);
     }
@@ -112,6 +122,7 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        $project->technologies()->detach();
         if ($project->image){
             Storage::delete($project->image);
         }

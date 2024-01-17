@@ -9,6 +9,10 @@
                 <h5>Categories</h5>
                 <a class="text-primary text-decoration-none " href="{{ route('admin.categories.index')}}">Control Panel</a>
             </div>
+            <div class="text-center mb-5">
+                <h5>Technologies</h5>
+                <a class="text-primary text-decoration-none " href="{{ route('admin.technologies.index')}}">Control Panel</a>
+            </div>
         </div>
         <div>
             <div class="text-center">

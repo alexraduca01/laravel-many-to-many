@@ -7,6 +7,13 @@
         @if($project->category)
             <p>{{ $project->category->name }}</p>
         @endif
+        @if($project->technologies)
+            <ul>
+                @foreach ($project->technologies as $item)
+                    <li><a class="text-white text-decoration-none" href="{{ route('admin.technologies.show', $item->slug) }}">{{ $item->name }}</a></li>
+                @endforeach
+            </ul>
+        @endif
         <img src="{{ asset('storage/' . $project->image) }}" alt="{{ $project->title }}">
         <div class="d-flex justify-content-end align-items-center gap-3">
             <a href="{{ $project->url }}" class="text-white fs-2"><i class="fa-brands fa-github"></i></a>

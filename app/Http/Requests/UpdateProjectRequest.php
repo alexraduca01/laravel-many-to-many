@@ -27,7 +27,8 @@ class UpdateProjectRequest extends FormRequest
             'body' => ['nullable'],
             'image' => ['nullable', 'image'],
             'url' => ['url'],
-            'category_id' => ['nullable', 'exists:categories,id']
+            'category_id' => ['nullable', 'exists:categories,id'],
+            'technologies' => ['exists:technologies,id']
         ];
     }
 

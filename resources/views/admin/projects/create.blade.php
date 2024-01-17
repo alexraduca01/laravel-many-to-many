@@ -29,6 +29,22 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
+            <div class="mb-3">
+                <div class="form-group">
+                    <h6>Select Technologies</h6>
+                    @foreach ($technologies as $item)
+                        <div class="form-check @error('technologies') is-invalid @enderror">
+                            <input type="checkbox" class="form-check-input" name="technologies[]" value="{{ $item->id }}" {{ in_array($item->id, old('technologies', [])) ? 'checked' : '' }}>
+                            <label class="form-check-label">
+                                {{ $item->name }}
+                            </label>
+                        </div>
+                    @endforeach
+                    @error('technologies')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
             <div class="d-flex">
                 <div>
                     <div class="me-3">

@@ -6,7 +6,7 @@
         @if($technology->projects)
             <ul>
                 @foreach($technology->projects as $item)
-                    <li>{{ $item->title }}</li>
+                    <li><a class="text-white text-decoration-none" href="{{ route('admin.projects.show', $item->slug) }}">{{ $item->title }}</a></li>
                 @endforeach
             </ul>
         @endif

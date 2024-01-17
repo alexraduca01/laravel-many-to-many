@@ -31,8 +31,8 @@
                 @enderror
             </div>
             <div class="mb-3">
-                <div class="form-group">
-                    <h6>Select Technologies</h6>
+                <h6>Select Technologies</h6>
+                <div class="form-group d-flex gap-4">
                     @foreach ($technologies as $item)
                         <div class="form-check @error('technologies') is-invalid @enderror">
                             @if ($errors->any())
@@ -41,7 +41,7 @@
                                 <input type="checkbox" class="form-check-input" name="technologies[]" value="{{ $item->id }}" {{ $project->technologies->contains($item->id) ? 'checked' : '' }}>
                             @endif
                             <label class="form-check-label">
-                                {{ $item->name }}
+                                <img src="{{ $item->image }}" alt="{{ $item->name }}" style="width: 30px;">
                             </label>
                         </div>
                     @endforeach

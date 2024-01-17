@@ -23,6 +23,7 @@ class StoreTechnologyRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'min:3', 'max:255', 'unique:technologies'],
+            'image' => ['nullable', 'url'],
         ];
     }
 

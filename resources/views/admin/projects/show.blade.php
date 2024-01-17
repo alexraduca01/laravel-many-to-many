@@ -5,12 +5,12 @@
         <h1>{{ $project->title }}</h1>
         <p>{{ $project->body }}</p>
         @if($project->category)
-            <p>{{ $project->category->name }}</p>
+            <p class="badge bg-success rounded-pill"><a href="{{ route('admin.categories.show', $project->category->slug) }}" class="text-white text-decoration-none">{{ $project->category->name }}</a></p>
         @endif
         @if($project->technologies)
-            <ul>
+            <ul class="list-unstyled d-flex gap-2">
                 @foreach ($project->technologies as $item)
-                    <li><a class="text-white text-decoration-none" href="{{ route('admin.technologies.show', $item->slug) }}">{{ $item->name }}</a></li>
+                    <li><a class="text-white text-decoration-none" href="{{ route('admin.technologies.show', $item->slug) }}"><img src="{{ $item->image }}" alt="{{ $item->name }}" style="width: 30px;"></a></li>
                 @endforeach
             </ul>
         @endif

@@ -2,12 +2,19 @@
 @section('content')
     <section class="container text-white py-3">
         <h1>Create new technology</h1>
-        <form action="{{ route('admin.technologies.store') }}" method="POST">
+        <form action="{{ route('admin.technologies.store') }}" enctype="multipart/form-data" method="POST">
             @csrf
             <div class="mb-3">
                 <label for="name" class="fs-2">Name</label>
                 <input type="text" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" name='name' id='name' required maxlength="200" minlength="3">
                 @error('name')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="mb-3">
+                <label for="image" class="fs-2">Image URL</label>
+                <input type="url" value="{{ old('image') }}" class="form-control @error('image') is-invalid @enderror" name='image' id='image' required maxlength="200" minlength="3">
+                @error('image')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>

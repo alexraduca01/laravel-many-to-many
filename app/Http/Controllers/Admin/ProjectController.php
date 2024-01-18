@@ -10,6 +10,7 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
@@ -18,7 +19,12 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
+        $currentUserId = Auth::id();
+        if($currentUserId == 1){
+            $projects = Project::paginate(10);
+        } else {
+            $projects = Project::where('user_id', $currentUserId)->paginate(10);
+        }
         return view('admin.projects.index', compact('projects'));
     }
 
@@ -68,7 +74,12 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        return view('admin.projects.show', compact('project'));
+        $currentUserId = Auth::id();
+        if($currentUserId == $project->user_id || $currentUserId == 1){
+            return view('admin.projects.show', compact('project'));
+        }
+        abort(403);
+
     }
 
     /**
@@ -76,9 +87,14 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        $technologies = Technology::all();
-        $categories = Category::all();
-        return view('admin.projects.edit', compact('project', 'categories', 'technologies'));
+        $currentUserId = Auth::id();
+        if($currentUserId == $project->user_id || $currentUserId == 1){
+            $technologies = Technology::all();
+            $categories = Category::all();
+            return view('admin.projects.edit', compact('project', 'categories', 'technologies'));
+        }
+        abort(403);
+
     }
 
     /**
@@ -122,6 +138,11 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        $currentUserId = Auth::id();
+        if($currentUserId != $project->user_id && $currentUserId != 1){
+            abort(403);
+        }
+
         $project->technologies()->detach();
         if ($project->image){
             Storage::delete($project->image);
